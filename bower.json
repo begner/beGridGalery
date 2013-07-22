@@ -8,7 +8,7 @@
         "image",
         "grid"
     ],
-    "homepage": "https://github.com/blueimp/jQuery-File-Upload",
+    "homepage": "https://github.com/begner/beGridGalery",
     "author": {
         "name": "Benjamin Egner"
     },
@@ -21,7 +21,7 @@
         "type": "git",
         "url": "git://github.com/blueimp/jQuery-File-Upload.git"
     },
-    "bugs": "https://github.com/blueimp/jQuery-File-Upload/issues",
+    "bugs": "https://github.com/begner/beGridGalery/issues",
     "licenses": [
         {
             "type": "MIT",
