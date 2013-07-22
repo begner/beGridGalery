@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="js/gridGalery.js"></script>
+
+		<style>
+			body {
+				background:#000;
+			}
+
+			.element {
+				border-radius: 10px 10px;
+				border:1px solid #FFF;
+			}
+
+			.element a {
+				text-decoration: none;
+				color: #FFF;
+				text-shadow: -1px -1px 1px #000, 
+							 -1px 1px 1px #000,
+							 1px -1px 1px #000,
+							 1px 1px 1px #000;
+				font-weight: bold;
+			}
+			
+		</style>
+		<script>
+			$(document).ready(function() {
+
+				// ##################
+				// Helper to create Dummy-Images from flickr
+
+				var maxImages = 100; // max images to load...
+				var myImages = []; // List of images (src)
+
+				/**
+				 * Load some random images from flickr
+				 * Calls displayImages on result
+				 */
+				function loadImages() {
+					$.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=?", function(data) {
+
+						// push the images into array...
+						$.each(data.items, function(i,item){
+			  				var img = (item.media.m); // .replace("_m.jpg", "_s.jpg");		
+			  				myImages.push({size:Math.round(Math.random()*4)+1, url:img});
+						});
+
+						// enough images?
+						if (myImages.length < maxImages) {
+							loadImages(); // load more
+						}
+						else {
+							initGridGalery(); // enough! get started..
+						}
+					});
+				}
+
+				loadImages();
+
+				/**
+				 * Start the GridGalery Code
+				 * @return {[type]}
+				 */
+				function initGridGalery() {
+					
+					// Init the Galery
+					$("#gridgalery").beGridGalery({
+						imageData:myImages, // twitter loaded images here...
+						getFieldHTML: function(imageData) { // customFieldHTML
+							var elementHTML = "<div class='element' >";
+							elementHTML+= imageData.id;
+							elementHTML+= "<a href='#' gridID='"+imageData.id+"' gridAction='sizePlus'>+</a> ";
+							elementHTML+= "<a href='#' gridID='"+imageData.id+"' gridAction='sizeMinus'>-</a> ";
+							elementHTML+= "<a href='#' gridID='"+imageData.id+"' gridAction='moveUp'>&lt;</a> ";
+							elementHTML+= "<a href='#' gridID='"+imageData.id+"' gridAction='moveDown'>&gt;</a> ";
+							elementHTML+= "</div>";
+							return elementHTML;
+						} 
+					})
+					// Finds all links from customFieldHTML - and bind clickevent...
+					.find("a[gridAction]").bind("click", function(event) {
+						event.preventDefault();
+
+						var me = $(this);
+						var gridAction = me.attr("gridAction");
+						var imageID = me.attr("gridID");
+						
+						// depends on the gridActionAttribute - which function to call of the galery - the official jQuery Way... Arg!
+						switch(gridAction) 
+						{
+							case "sizePlus":
+								$("#gridgalery").beGridGalery("enlargeImage", {id:imageID});
+								break;
+							case "sizeMinus":
+								$("#gridgalery").beGridGalery("reduceImage", {id:imageID});
+								break;
+							case "moveUp":
+								$("#gridgalery").beGridGalery("moveUpImage", {id:imageID});
+								break;
+							case "moveDown":
+								$("#gridgalery").beGridGalery("moveDownImage", {id:imageID});
+								break;
+						}
+
+
+						// gridStage.empty();
+
+						// Place images onto the grid
+						$("#gridgalery").beGridGalery("placeImages");
+
+						// start the magic ;)
+            			$("#gridgalery").beGridGalery("updateDom", {animate:true});
+
+						//myGrid.getDom().appendTo(gridStage);
+
+					})
+				}
+
+			})
+		</script>
+
+
+
+	</head>
+
+	<body>
+
+		<!-- Container for jQuery Plugin -->
+		<div id='gridgalery'>
+		</div>
+
+	</body>
+</html>

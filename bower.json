@@ -1,0 +1,37 @@
+{
+    "name": "beGridGalery",
+    "version": "0.1.1",
+    "title": "beGridGalery",
+    "description": "Displays Images in a Grid",
+    "keywords": [
+        "jquery",
+        "image",
+        "grid"
+    ],
+    "homepage": "https://github.com/blueimp/jQuery-File-Upload",
+    "author": {
+        "name": "Benjamin Egner"
+    },
+    "maintainers": [
+        {
+            "name": "Benjamin Egner"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/blueimp/jQuery-File-Upload.git"
+    },
+    "bugs": "https://github.com/blueimp/jQuery-File-Upload/issues",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://www.opensource.org/licenses/MIT"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.9.1"
+    },
+    "main": [
+        "js/beGridGalery.js"
+    ]
+}
